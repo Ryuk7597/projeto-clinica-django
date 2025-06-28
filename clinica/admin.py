@@ -7,8 +7,19 @@ from .models import (
 
 # Register your models here.
 
+class PacienteInline(admin.StackedInline):
+    model = Paciente
+    can_delete = False
+    verbose_name_plural = 'Perfil de Paciente'
+
+class MedicoInline(admin.StackedInline):
+    model = Medico
+    can_delete = False
+    verbose_name_plural = 'Perfil de Médico'
+
 class CustomUserAdmin(UserAdmin):
-    # Campos a serem exibidos na lista de usuários
+    inlines = (PacienteInline, MedicoInline) 
+
     list_display = ('username', 'email', 'tipo_usuario', 'is_staff')
     fieldsets = UserAdmin.fieldsets + (
         ('Informações Adicionais', {'fields': ('tipo_usuario',)}),
@@ -17,13 +28,11 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('tipo_usuario',)}),
     )
 
-# Registrando os modelos
 admin.site.register(Usuario, CustomUserAdmin)
+
 admin.site.register(Convenio)
 admin.site.register(Especialidade)
 admin.site.register(Sala)
-admin.site.register(Medico)
-admin.site.register(Paciente)
 admin.site.register(Disponibilidade)
 admin.site.register(Consulta)
 admin.site.register(RegistroProntuario)
