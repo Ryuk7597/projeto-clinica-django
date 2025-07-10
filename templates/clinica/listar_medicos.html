@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendar Consulta - Escolha o Profissional</title>
+</head>
+<body>
+    <h1>Escolha um Profissional</h1>
+    <hr>
+
+    {% if medicos %}
+        <ul>
+            {% for medico in medicos %}
+                <li>
+                    <strong>Dr(a). {{ medico.nome_completo }}</strong> - CRM: {{ medico.crm }}
+
+                    <p>
+                    Especialidades:
+                    {% for especialidade in medico.especialidades.all %}
+                        {{ especialidade.nome }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    </p>
+
+                    <a href="#">Ver Agenda e Marcar Consulta</a>
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum médico disponível no momento.</p>
+    {% endif %}
+
+    <hr>
+    <p><a href="{% url 'dashboard_paciente' %}">Voltar para o seu Painel</a></p>
+</body>
+</html>

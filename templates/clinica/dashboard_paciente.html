@@ -12,6 +12,8 @@
     <h2>Minhas Consultas</h2>
     <p>Em breve, suas consultas aparecerão aqui.</p>
 
+    <p><a href="{% url 'listar_medicos' %}"><strong>Agendar Nova Consulta</strong></a></p>
+
     <p><a href="{% url 'home' %}">Voltar para a Página Inicial</a></p>
 
     <form action="{% url 'logout' %}" method="post" style="display: inline;">
