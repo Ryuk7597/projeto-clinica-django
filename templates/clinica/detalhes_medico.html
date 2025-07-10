@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda de Dr(a). {{ medico.nome_completo }}</title>
+</head>
+<body>
+    <h1>Dr(a). {{ medico.nome_completo }}</h1>
+    <p><strong>Especialidades:</strong> 
+        {% for esp in medico.especialidades.all %}
+            {{ esp.nome }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <hr>
+
+    <h2>Agende sua Consulta</h2>
+
+    {% if horarios_disponiveis %}
+        <p>Selecione um dos horários vagos abaixo para os próximos 7 dias:</p>
+        {% for horario in horarios_disponiveis %}
+            <a href="{% url 'agendar_consulta' medico_id=medico.pk horario_str=horario|date:'Y-m-d-H-i' %}" style="margin: 5px; border: 1px solid blue; padding: 5px; display: inline-block;">
+                {{ horario|date:"d/m/Y - H:i" }}
+            </a>
+        {% endfor %}
+    {% else %}
+        <p>Não há horários vagos para este médico nos próximos dias.</p>
+    {% endif %}
+
+    <hr>
+    <p><a href="{% url 'listar_medicos' %}">Voltar para a lista de médicos</a></p>
+</body>
+</html>

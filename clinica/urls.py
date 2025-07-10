@@ -9,6 +9,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', views.dashboard_paciente, name='dashboard_paciente'),
     path('agendamento/', views.listar_medicos, name='listar_medicos'),
+    path('medico/<int:medico_id>/', views.detalhes_medico, name='detalhes_medico'),
+    path('agendar/<int:medico_id>/<str:horario_str>/', views.agendar_consulta, name='agendar_consulta'),
     
 ]
 

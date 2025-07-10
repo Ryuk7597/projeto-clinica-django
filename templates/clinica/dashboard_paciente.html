@@ -5,6 +5,16 @@
     <title>Meu Painel</title>
 </head>
 <body>
+    {% if messages %}
+        <ul style="list-style: none; padding: 0;">
+            {% for message in messages %}
+                <li style="padding: 10px; margin-bottom: 10px; background-color: {% if message.tags == 'success' %}lightgreen{% else %}lightcoral{% endif %};">
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <h1>Painel do Paciente</h1>
     <p>Bem-vindo, {{ user.username }}!</p>
     <hr>
