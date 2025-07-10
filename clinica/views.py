@@ -9,9 +9,6 @@ def paciente_cadastro(request):
     if request.method == 'POST':
         form = PacienteCreationForm(request.POST)
         if form.is_valid():
-            # A mágica acontece aqui.
-            # Agora chamamos o método .save() do nosso formulário customizado,
-            # que já sabe como criar o Usuário E o Paciente.
             form.save()
             return redirect('home')
     else:

@@ -7,9 +7,25 @@
 <body>
     <h1>Clínica Saúde & Bem-Estar</h1>
     <p>Seu portal de agendamento de consultas online.</p>
+    <hr>
 
-    <a href="/admin/">Acesso Restrito (Admin)</a>
-    <a href="{% url 'paciente_cadastro' %}">Cadastre-se como Paciente</a> ```
+    {% if user.is_authenticated %}
+        <p>Olá, <strong>{{ user.username }}</strong>! (Tipo: {{ user.tipo_usuario }})</p>
+        
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Sair (Logout)</button>
+        </form>
 
-    </body>
+    {% else %}
+        <p>Você não está conectado.</p>
+        <p>
+            <a href="{% url 'login' %}">Fazer Login</a> |
+            <a href="{% url 'paciente_cadastro' %}">Cadastre-se como Paciente</a>
+        </p>
+    {% endif %}
+
+    <hr>
+    <p><a href="/admin/">Acesso Restrito (Admin)</a></p>
+</body>
 </html>
