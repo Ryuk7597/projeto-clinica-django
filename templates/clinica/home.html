@@ -11,6 +11,8 @@
 
     {% if user.is_authenticated %}
         <p>Olá, <strong>{{ user.username }}</strong>! (Tipo: {{ user.tipo_usuario }})</p>
+
+        <p><a href="{% url 'dashboard_paciente' %}">Acessar meu painel</a></p>
         
         <form action="{% url 'logout' %}" method="post" style="display: inline;">
             {% csrf_token %}

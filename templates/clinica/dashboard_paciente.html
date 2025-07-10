@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Painel</title>
+</head>
+<body>
+    <h1>Painel do Paciente</h1>
+    <p>Bem-vindo, {{ user.username }}!</p>
+    <hr>
+
+    <h2>Minhas Consultas</h2>
+    <p>Em breve, suas consultas aparecerão aqui.</p>
+
+    <p><a href="{% url 'home' %}">Voltar para a Página Inicial</a></p>
+
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit">Sair (Logout)</button>
+    </form>
+</body>
+</html>

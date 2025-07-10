@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import PacienteCreationForm 
+from django.contrib.auth.decorators import login_required
+from .forms import PacienteCreationForm
+from django.contrib.auth import logout
 
 # Create your views here.
 def home(request):
@@ -15,3 +17,8 @@ def paciente_cadastro(request):
         form = PacienteCreationForm()
 
     return render(request, 'clinica/cadastro.html', {'form': form})
+
+@login_required
+def dashboard_paciente(request):
+    # Por enquanto, apenas renderiza o template
+    return render(request, 'clinica/dashboard_paciente.html')
