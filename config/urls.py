@@ -15,9 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include  # 1. Adicione o 'include'
+from django.urls import path, include  
+from clinica.containers import AppContainer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('clinica.urls')),  # 2. Adicione esta linha
+    path('', include('clinica.urls')),  
 ]
+
+AppContainer().wire(modules=["clinica.views"])

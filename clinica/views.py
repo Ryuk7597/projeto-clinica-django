@@ -6,16 +6,55 @@ from .models import Medico, Disponibilidade, Consulta, Paciente, Sala
 from django.contrib import messages
 from datetime import date, datetime, timedelta
 
+from dependency_injector.wiring import inject, Provide
+from .containers import AppContainer
+from .services import NotificationService
+
+#Injeção de Dependência
+@login_required
+@inject
+def agendar_consulta(
+    request,
+    medico_id,
+    horario_str,
+    notification_service: NotificationService = Provide[AppContainer.notification_service],
+):
+    medico = get_object_or_404(Medico, pk=medico_id)
+    paciente = get_object_or_404(Paciente, usuario=request.user)
+    horario_consulta = datetime.strptime(horario_str, '%Y-%m-%d-%H-%M')
+    sala = Sala.objects.first()
+
+    try:
+        Consulta.objects.create(...)
+
+        mensagem = f'Sua consulta com Dr(a). {medico.nome_completo} foi agendada para {horario_consulta.strftime("%d/%m/%Y às %H:%M")}.'
+        notification_service.send_notification(request.user.email, mensagem)
+
+        messages.success(request, 'Consulta agendada com sucesso!')
+    except Exception as e:
+        messages.error(request, f'Ocorreu um erro: {e}')
+
+    return redirect('dashboard_paciente')
+
 # Create your views here.
 def home(request):
     return render(request, 'clinica/home.html')
 
-def paciente_cadastro(request):
+@inject
+def paciente_cadastro(
+    request,
+    notification_service: NotificationService = Provide[AppContainer.notification_service],
+):
     if request.method == 'POST':
         form = PacienteCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            usuario = form.save() 
+
+            mensagem = f'Bem-vindo à nossa clínica, {usuario.username}! Sua conta foi criada com sucesso.'
+            notification_service.send_notification(usuario.email, mensagem)
+
+            messages.success(request, 'Cadastro realizado com sucesso! Por favor, faça o login.')
+            return redirect('login')
     else:
         form = PacienteCreationForm()
 
@@ -23,14 +62,11 @@ def paciente_cadastro(request):
 
 @login_required
 def dashboard_paciente(request):
-    # Por enquanto, apenas renderiza o template
     return render(request, 'clinica/dashboard_paciente.html')
 
 @login_required
 def listar_medicos(request):
-    # Busca todos os objetos Medico no banco de dados
     medicos = Medico.objects.all()
-    # Envia a lista de medicos para o template
     return render(request, 'clinica/listar_medicos.html', {'medicos': medicos})
 
 @login_required
@@ -68,13 +104,18 @@ def detalhes_medico(request, medico_id):
     return render(request, 'clinica/detalhes_medico.html', contexto)
 
 @login_required
-def agendar_consulta(request, medico_id, horario_str):
+@inject
+def agendar_consulta(
+    request,
+    medico_id,
+    horario_str,
+    notification_service: NotificationService = Provide[AppContainer.notification_service],
+):
     medico = get_object_or_404(Medico, pk=medico_id)
     paciente = get_object_or_404(Paciente, usuario=request.user)
-
     horario_consulta = datetime.strptime(horario_str, '%Y-%m-%d-%H-%M')
-
     sala = Sala.objects.first()
+
     if not sala:
         messages.error(request, 'Erro: Nenhuma sala de atendimento foi configurada no sistema.')
         return redirect('detalhes_medico', medico_id=medico_id)
@@ -86,7 +127,12 @@ def agendar_consulta(request, medico_id, horario_str):
             sala=sala,
             data_hora=horario_consulta
         )
-        messages.success(request, f'Consulta agendada com sucesso para o dia {horario_consulta.strftime("%d/%m/%Y às %H:%M")}.')
+
+        mensagem = f'Sua consulta com Dr(a). {medico.nome_completo} foi agendada para {horario_consulta.strftime("%d/%m/%Y às %H:%M")}.'
+        notification_service.send_notification(request.user.email, mensagem)
+
+        messages.success(request, f'Consulta agendada com sucesso!')
+
     except Exception as e:
         messages.error(request, f'Ocorreu um erro inesperado ao agendar a consulta: {e}')
 
