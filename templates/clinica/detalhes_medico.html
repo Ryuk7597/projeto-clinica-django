@@ -1,32 +1,37 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Agenda de Dr(a). {{ medico.nome_completo }}</title>
-</head>
-<body>
-    <h1>Dr(a). {{ medico.nome_completo }}</h1>
-    <p><strong>Especialidades:</strong> 
-        {% for esp in medico.especialidades.all %}
-            {{ esp.nome }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
-    <hr>
+{% extends 'clinica/base.html' %}
 
-    <h2>Agende sua Consulta</h2>
+{% block title %}Agenda de Dr(a). {{ medico.nome_completo }}{% endblock %}
 
-    {% if horarios_disponiveis %}
-        <p>Selecione um dos horários vagos abaixo para os próximos 7 dias:</p>
-        {% for horario in horarios_disponiveis %}
-            <a href="{% url 'agendar_consulta' medico_id=medico.pk horario_str=horario|date:'Y-m-d-H-i' %}" style="margin: 5px; border: 1px solid blue; padding: 5px; display: inline-block;">
-                {{ horario|date:"d/m/Y - H:i" }}
-            </a>
-        {% endfor %}
-    {% else %}
-        <p>Não há horários vagos para este médico nos próximos dias.</p>
-    {% endif %}
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h1>Dr(a). {{ medico.nome_completo }}</h1>
+            <p class="mb-0"><strong>Especialidades:</strong> 
+                {% for esp in medico.especialidades.all %}
+                    {{ esp.nome }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Agende sua Consulta</h5>
+            <p class="card-text">Selecione um dos horários vagos abaixo para os próximos 7 dias.</p>
 
-    <hr>
-    <p><a href="{% url 'listar_medicos' %}">Voltar para a lista de médicos</a></p>
-</body>
-</html>
+            {% if horarios_disponiveis %}
+                <div class="d-flex flex-wrap">
+                    {% for horario in horarios_disponiveis %}
+                        <a href="{% url 'agendar_consulta' medico_id=medico.pk horario_str=horario|date:'Y-m-d-H-i' %}" class="btn btn-outline-primary m-1">
+                            {{ horario|date:"d/m/Y - H:i" }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Não há horários vagos para este médico nos próximos dias.
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+             <a href="{% url 'listar_medicos' %}" class="btn btn-secondary">Voltar para a lista de médicos</a>
+        </div>
+    </div>
+{% endblock %}

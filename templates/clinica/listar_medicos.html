@@ -1,36 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Agendar Consulta - Escolha o Profissional</title>
-</head>
-<body>
-    <h1>Escolha um Profissional</h1>
-    <hr>
+{% extends 'clinica/base.html' %}
+
+{% block title %}Agendar Consulta{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Escolha um Profissional</h1>
 
     {% if medicos %}
-        <ul>
+        <div class="list-group">
             {% for medico in medicos %}
-                <li>
-                    <strong>Dr(a). {{ medico.nome_completo }}</strong> - CRM: {{ medico.crm }}
-
-                    <p>
-                    Especialidades:
-                    {% for especialidade in medico.especialidades.all %}
-                        {{ especialidade.nome }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
+                <a href="{% url 'detalhes_medico' medico.pk %}" class="list-group-item list-group-item-action flex-column align-items-start mb-2 shadow-sm">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Dr(a). {{ medico.nome_completo }}</h5>
+                        <small>CRM: {{ medico.crm }}</small>
+                    </div>
+                    <p class="mb-1">
+                        <strong>Especialidades:</strong>
+                        {% for especialidade in medico.especialidades.all %}
+                            {{ especialidade.nome }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
                     </p>
-
-                    <a href="{% url 'detalhes_medico' medico.pk %}">Ver Agenda e Marcar Consulta</a>
-                </li>
-                <br>
+                </a>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <p>Nenhum médico disponível no momento.</p>
+        <div class="alert alert-warning" role="alert">
+            Nenhum médico disponível no momento.
+        </div>
     {% endif %}
 
-    <hr>
-    <p><a href="{% url 'dashboard_paciente' %}">Voltar para o seu Painel</a></p>
-</body>
-</html>
+    <a href="{% url 'dashboard_paciente' %}" class="btn btn-secondary mt-4">Voltar para o seu Painel</a>
+{% endblock %}

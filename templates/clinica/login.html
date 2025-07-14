@@ -1,22 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Acesse sua Conta</h2>
+{% extends 'clinica/base.html' %}
 
-    {% if form.errors %}
-        <p style="color: red;">Seu nome de usuário ou senha estão incorretos. Tente novamente.</p>
-    {% endif %}
+{% block title %}Login{% endblock %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Entrar</button>
-    </form>
-    <p><a href="#">Esqueceu a senha?</a></p>
-    <p><a href="#">Não tem uma conta? Cadastre-se</a></p>
-</body>
-</html>
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h2>Acesse sua Conta</h2>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            Seu nome de usuário ou senha estão incorretos. Tente novamente.
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Entrar</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'paciente_cadastro' %}">Não tem uma conta? Cadastre-se</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

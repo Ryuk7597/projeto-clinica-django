@@ -1,34 +1,33 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Meu Painel</title>
-</head>
-<body>
+{% extends 'clinica/base.html' %}
+
+{% block title %}Meu Painel{% endblock %}
+
+{% block content %}
     {% if messages %}
-        <ul style="list-style: none; padding: 0;">
-            {% for message in messages %}
-                <li style="padding: 10px; margin-bottom: 10px; background-color: {% if message.tags == 'success' %}lightgreen{% else %}lightcoral{% endif %};">
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
     {% endif %}
 
-    <h1>Painel do Paciente</h1>
-    <p>Bem-vindo, {{ user.username }}!</p>
-    <hr>
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h1>Painel do Paciente</h1>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Bem-vindo, {{ user.username }}!</h5>
+            <p class="card-text">Use as opções abaixo para gerenciar suas consultas.</p>
+            <a href="{% url 'listar_medicos' %}" class="btn btn-success">Agendar Nova Consulta</a>
+        </div>
+    </div>
 
-    <h2>Minhas Consultas</h2>
-    <p>Em breve, suas consultas aparecerão aqui.</p>
-
-    <p><a href="{% url 'listar_medicos' %}"><strong>Agendar Nova Consulta</strong></a></p>
-
-    <p><a href="{% url 'home' %}">Voltar para a Página Inicial</a></p>
-
-    <form action="{% url 'logout' %}" method="post" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit">Sair (Logout)</button>
-    </form>
-</body>
-</html>
+    <div class="card shadow-sm mt-4">
+        <div class="card-header">
+            <h2>Minhas Consultas</h2>
+        </div>
+        <div class="card-body">
+            <p>Em breve, sua lista de consultas agendadas aparecerá aqui.</p>
+        </div>
+    </div>
+{% endblock %}
