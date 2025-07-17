@@ -1,0 +1,42 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Gerenciar Médicos</h1>
+        <a href="{% url 'medico_create' %}" class="btn btn-primary">Adicionar Novo Médico</a>
+    </div>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome Completo</th>
+                <th>Usuário</th>
+                <th>CRM</th>
+                <th>Especialidades</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medico in medicos %}
+                <tr>
+                    <td>{{ medico.nome_completo }}</td>
+                    <td>{{ medico.usuario.username }}</td>
+                    <td>{{ medico.crm }}</td>
+                    <td>
+                        {% for esp in medico.especialidades.all %}
+                            <span class="badge bg-secondary">{{ esp.nome }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'medico_update' medico.pk %}" class="btn btn-sm btn-info">Editar</a>
+                        <a href="{% url 'medico_delete' medico.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Nenhum médico cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

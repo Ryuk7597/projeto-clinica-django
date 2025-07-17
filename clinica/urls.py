@@ -20,6 +20,14 @@ urlpatterns = [
     path('gerenciar/especialidades/nova/', views.EspecialidadeCreateView.as_view(), name='especialidade_create'),
     path('gerenciar/especialidades/<int:pk>/editar/', views.EspecialidadeUpdateView.as_view(), name='especialidade_update'),
     path('gerenciar/especialidades/<int:pk>/excluir/', views.EspecialidadeDeleteView.as_view(), name='especialidade_delete'),
-
+    path('gerenciar/salas/', views.SalaListView.as_view(), name='sala_list'),
+    path('gerenciar/salas/nova/', views.SalaCreateView.as_view(), name='sala_create'),
+    path('gerenciar/salas/<int:pk>/editar/', views.SalaUpdateView.as_view(), name='sala_update'),
+    path('gerenciar/salas/<int:pk>/excluir/', views.SalaDeleteView.as_view(), name='sala_delete'),
+    path('gerenciar/medicos/', views.MedicoListView.as_view(), name='medico_list'),
+    path('gerenciar/medicos/novo/', views.MedicoCreateView.as_view(), name='medico_create'),
+    path('gerenciar/medicos/<int:pk>/editar/', views.MedicoUpdateView.as_view(), name='medico_update'),
+    path('gerenciar/medicos/<int:pk>/excluir/', views.MedicoDeleteView.as_view(), name='medico_delete'),
+    
 ]
 

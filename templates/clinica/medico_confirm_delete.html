@@ -1,0 +1,13 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>Excluir Médico</h1>
+    <hr>
+    <p>Você tem certeza que deseja excluir o perfil do médico "<strong>{{ object.nome_completo }}</strong>"?</p>
+    <p><small>Atenção: Isso não excluirá a conta de usuário associada, apenas o perfil de médico.</small></p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, tenho certeza</button>
+        <a href="{% url 'medico_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

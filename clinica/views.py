@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import PacienteCreationForm
+from .forms import PacienteCreationForm, MedicoUserCreationForm, MedicoUpdateForm 
 from django.contrib.auth import logout
 from .models import Medico, Disponibilidade, Consulta, Paciente, Sala
 from django.contrib import messages
 from datetime import date, datetime, timedelta
 
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.views.generic import TemplateView
-from .models import Convenio, Especialidade
+from .models import Convenio, Especialidade, Sala, Medico
+
 
 
 from dependency_injector.wiring import inject, Provide
@@ -153,7 +155,7 @@ class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
 
 class GerenciamentoView(AdminRequiredMixin, TemplateView):
     template_name = 'clinica/gerenciamento.html'
-    
+
 
 class ConvenioListView(AdminRequiredMixin, ListView):
     model = Convenio
@@ -200,3 +202,64 @@ class EspecialidadeDeleteView(AdminRequiredMixin, DeleteView):
     model = Especialidade
     template_name = 'clinica/especialidade_confirm_delete.html'
     success_url = reverse_lazy('especialidade_list')
+
+
+class SalaListView(AdminRequiredMixin, ListView):
+    model = Sala
+    template_name = 'clinica/sala_list.html'
+    context_object_name = 'salas'
+
+class SalaCreateView(AdminRequiredMixin, CreateView):
+    model = Sala
+    template_name = 'clinica/sala_form.html'
+    fields = ['nome', 'descricao'] 
+    success_url = reverse_lazy('sala_list')
+
+class SalaUpdateView(AdminRequiredMixin, UpdateView):
+    model = Sala
+    template_name = 'clinica/sala_form.html'
+    fields = ['nome', 'descricao']
+    success_url = reverse_lazy('sala_list')
+
+class SalaDeleteView(AdminRequiredMixin, DeleteView):
+    model = Sala
+    template_name = 'clinica/sala_confirm_delete.html'
+    success_url = reverse_lazy('sala_list')
+
+
+class MedicoListView(AdminRequiredMixin, ListView):
+    model = Medico
+    template_name = 'clinica/medico_list.html'
+    context_object_name = 'medicos'
+
+class MedicoCreateView(AdminRequiredMixin, CreateView):
+    form_class = MedicoUserCreationForm
+    template_name = 'clinica/medico_form.html'
+    success_url = reverse_lazy('medico_list')
+
+class MedicoUpdateView(AdminRequiredMixin, UpdateView):
+    model = Medico
+    form_class = MedicoUpdateForm
+    template_name = 'clinica/medico_form.html'
+    success_url = reverse_lazy('medico_list')
+
+class MedicoDeleteView(AdminRequiredMixin, DeleteView):
+    model = Medico
+    template_name = 'clinica/medico_confirm_delete.html'
+    success_url = reverse_lazy('medico_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        usuario_a_deletar = self.object.usuario
+
+        success_url = self.get_success_url()
+
+        try:
+            usuario_a_deletar.delete()
+            messages.success(request, f'O médico "{self.object.nome_completo}" e sua conta de usuário foram excluídos com sucesso.')
+        except Exception as e:
+            messages.error(request, f'Ocorreu um erro ao excluir o médico: {e}')
+
+        return HttpResponseRedirect(success_url)
+
