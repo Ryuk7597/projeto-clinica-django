@@ -1,0 +1,15 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>Painel de Gerenciamento</h1>
+    <p>Selecione uma das opções abaixo para gerenciar os dados do sistema.</p>
+    <hr>
+    <div class="list-group">
+        <a href="{% url 'convenio_list' %}" class="list-group-item list-group-item-action">
+            Gerenciar Convênios
+        </a>
+        <a href="{% url 'especialidade_list' %}" class="list-group-item list-group-item-action">
+            Gerenciar Especialidades
+        </a>
+        </div>
+{% endblock %}

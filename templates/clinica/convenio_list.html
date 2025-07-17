@@ -1,0 +1,32 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Gerenciar Convênios</h1>
+        <a href="{% url 'convenio_create' %}" class="btn btn-primary">Adicionar Novo Convênio</a>
+    </div>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for convenio in convenios %}
+                <tr>
+                    <td>{{ convenio.nome }}</td>
+                    <td>
+                        <a href="{% url 'convenio_update' convenio.pk %}" class="btn btn-sm btn-info">Editar</a>
+                        <a href="{% url 'convenio_delete' convenio.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Nenhum convênio cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

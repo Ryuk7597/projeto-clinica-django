@@ -1,0 +1,12 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>{% if object %}Editar Especialidade{% else %}Adicionar uma nova especialidade{% endif %}</h1>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'especialidade_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>Excluir Especialidade</h1>
+    <hr>
+    <p>Você tem certeza que deseja excluir a especialidade "<strong>{{ object.nome }}</strong>"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, tenho certeza</button>
+        <a href="{% url 'especialidade_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

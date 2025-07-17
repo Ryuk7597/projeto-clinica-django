@@ -19,6 +19,13 @@
                                 Olá, {{ user.username }}
                             </span>
                         </li>
+
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'gerenciamento' %}">Gerenciamento</a>
+                            </li>
+                        {% endif %}
+
                         <li class="nav-item">
                             <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}

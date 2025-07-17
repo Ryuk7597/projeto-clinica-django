@@ -6,6 +6,13 @@ from .models import Medico, Disponibilidade, Consulta, Paciente, Sala
 from django.contrib import messages
 from datetime import date, datetime, timedelta
 
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView
+from .models import Convenio, Especialidade
+
+
 from dependency_injector.wiring import inject, Provide
 from .containers import AppContainer
 from .services import NotificationService
@@ -137,3 +144,59 @@ def agendar_consulta(
         messages.error(request, f'Ocorreu um erro inesperado ao agendar a consulta: {e}')
 
     return redirect('dashboard_paciente')
+
+
+class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+
+class GerenciamentoView(AdminRequiredMixin, TemplateView):
+    template_name = 'clinica/gerenciamento.html'
+    
+
+class ConvenioListView(AdminRequiredMixin, ListView):
+    model = Convenio
+    template_name = 'clinica/convenio_list.html'
+    context_object_name = 'convenios'
+
+class ConvenioCreateView(AdminRequiredMixin, CreateView):
+    model = Convenio
+    template_name = 'clinica/convenio_form.html'
+    fields = ['nome'] 
+    success_url = reverse_lazy('convenio_list') 
+
+class ConvenioUpdateView(AdminRequiredMixin, UpdateView):
+    model = Convenio
+    template_name = 'clinica/convenio_form.html'
+    fields = ['nome']
+    success_url = reverse_lazy('convenio_list')
+
+class ConvenioDeleteView(AdminRequiredMixin, DeleteView):
+    model = Convenio
+    template_name = 'clinica/convenio_confirm_delete.html'
+    success_url = reverse_lazy('convenio_list')
+
+
+
+class EspecialidadeListView(AdminRequiredMixin, ListView):
+    model = Especialidade
+    template_name = 'clinica/especialidade_list.html'
+    context_object_name = 'especialidades'
+
+class EspecialidadeCreateView(AdminRequiredMixin, CreateView):
+    model = Especialidade
+    template_name = 'clinica/especialidade_form.html'
+    fields = ['nome']
+    success_url = reverse_lazy('especialidade_list')
+
+class EspecialidadeUpdateView(AdminRequiredMixin, UpdateView):
+    model = Especialidade
+    template_name = 'clinica/especialidade_form.html'
+    fields = ['nome']
+    success_url = reverse_lazy('especialidade_list')
+
+class EspecialidadeDeleteView(AdminRequiredMixin, DeleteView):
+    model = Especialidade
+    template_name = 'clinica/especialidade_confirm_delete.html'
+    success_url = reverse_lazy('especialidade_list')

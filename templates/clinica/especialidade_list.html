@@ -1,0 +1,32 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Gerenciar Especialidade</h1>
+        <a href="{% url 'especialidade_create' %}" class="btn btn-primary">Adicionar uma nova especialidade</a>
+    </div>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for especialidade in especialidades %}
+                <tr>
+                    <td>{{ especialidade.nome }}</td>
+                    <td>
+                        <a href="{% url 'especialidade_update' especialidade.pk %}" class="btn btn-sm btn-info">Editar</a>
+                        <a href="{% url 'especialidade_delete' especialidade.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Nenhum especialidade cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
