@@ -7,14 +7,14 @@ Disciplina: Programação WEB II
 Prof.: Victor Felix Arinos
 
 Conteúdo:
-Criar um projeto utilizando Django que deverá conter:
-10 entidades;
-Pelo menos 2 Injeções de Dependência;
-1 DER;
-1 repositório no Github;
-5 Testes automatizados com Katalon;
-1 Script para build automática no Jenkins;
-1 análise do código final com SonarCloud.
+* Criar um projeto utilizando Django que deverá conter:
+* 10 entidades;
+* Pelo menos 2 Injeções de Dependência;
+* 1 DER;
+* 1 repositório no Github;
+* 5 Testes automatizados com Katalon;
+* 1 Script para build automática no Jenkins;
+* 1 análise do código final com SonarCloud.
 
 
 ## Descrição do Projeto
@@ -37,8 +37,8 @@ para gerenciar as operações da clínica, como horários, prontuários e cadast
     * Salas, Convênios e Especialidades.
 
 Testes automatizados com Katalon:
-1 - Cadastro: Realiza o auto cadastro de um usuario teste do tipo paciente e realiza o login;
-2 - Login: Realiza o login e o logout do usuario teste;
-3 - Falha no login: Realiza a tentativa de login, porem com uma senha invalida;
-4 - Agendamento: Realiza o auto agendamento de uma consulta com o usuario teste;
-5 - Cadastrar medico: Realiza o login como admin (superuser), cadastra uma nova especialidade e cadastra um novo usuario do tipo medico.
+* 1 - Cadastro: Realiza o auto cadastro de um usuario teste do tipo paciente e realiza o login;
+* 2 - Login: Realiza o login e o logout do usuario teste;
+* 3 - Falha no login: Realiza a tentativa de login, porem com uma senha invalida;
+* 4 - Agendamento: Realiza o auto agendamento de uma consulta com o usuario teste;
+* 5 - Cadastrar medico: Realiza o login como admin (superuser), cadastra uma nova especialidade e cadastra um novo usuario do tipo medico.
