@@ -42,3 +42,8 @@ Testes automatizados com Katalon:
 * 3 - Falha no login: Realiza a tentativa de login, porem com uma senha invalida;
 * 4 - Agendamento: Realiza o auto agendamento de uma consulta com o usuario teste;
 * 5 - Cadastrar medico: Realiza o login como admin (superuser), cadastra uma nova especialidade e cadastra um novo usuario do tipo medico.
+
+
+2 Injeções de Dependência:
+* 1° Injeção: enviar notificação a cada consulta agendada;
+* 2° Injeção: enviar notificação quando o usuario criar uma conta.
