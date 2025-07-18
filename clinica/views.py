@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.decorators.http import require_http_methods
 
 from .models import Convenio, Especialidade, Sala, Medico, Consulta, Paciente, Disponibilidade, Disponibilidade, RegistroProntuario
 from .forms import PacienteCreationForm, MedicoUserCreationForm, MedicoUpdateForm, ConsultaForm, DisponibilidadeForm, ProntuarioForm, PacienteUpdateForm
@@ -105,6 +106,7 @@ def detalhes_medico(request, medico_id):
 
 
 @login_required
+@require_http_methods(["POST"])
 @inject
 def agendar_consulta(
     request,

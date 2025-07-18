@@ -19,9 +19,12 @@
             {% if horarios_disponiveis %}
                 <div class="d-flex flex-wrap">
                     {% for horario in horarios_disponiveis %}
-                        <a href="{% url 'agendar_consulta' medico_id=medico.pk horario_str=horario|date:'Y-m-d-H-i' %}" class="btn btn-outline-primary m-1">
-                            {{ horario|date:"d/m/Y - H:i" }}
-                        </a>
+                        <form action="{% url 'agendar_consulta' medico_id=medico.pk horario_str=horario|date:'Y-m-d-H-i' %}" method="post" style="display: inline-block; margin: 5px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary">
+                                {{ horario|date:"d/m/Y - H:i" }}
+                            </button>
+                        </form>
                     {% endfor %}
                 </div>
             {% else %}
