@@ -6,7 +6,7 @@ Curso: Tecnologia em Análise e Desenvolvimento de Sistemas
 Disciplina: Programação WEB II
 Prof.: Victor Felix Arinos
 
-Conteúdo:
+## Conteúdo:
 * Criar um projeto utilizando Django que deverá conter:
 * 10 entidades;
 * Pelo menos 2 Injeções de Dependência;
@@ -36,7 +36,7 @@ para gerenciar as operações da clínica, como horários, prontuários e cadast
     * Disponibilidades de Horários
     * Salas, Convênios e Especialidades.
 
-Testes automatizados com Katalon:
+## Testes automatizados com Katalon:
 * 1 - Cadastro: Realiza o auto cadastro de um usuario teste do tipo paciente e realiza o login;
 * 2 - Login: Realiza o login e o logout do usuario teste;
 * 3 - Falha no login: Realiza a tentativa de login, porem com uma senha invalida;
@@ -44,6 +44,24 @@ Testes automatizados com Katalon:
 * 5 - Cadastrar medico: Realiza o login como admin (superuser), cadastra uma nova especialidade e cadastra um novo usuario do tipo medico.
 
 
-2 Injeções de Dependência:
+## 2 Injeções de Dependência:
 * 1° Injeção: enviar notificação a cada consulta agendada;
 * 2° Injeção: enviar notificação quando o usuario criar uma conta.
+
+
+## Usuarios
+**Admin**: 
+* user: admin; 
+* senha: adminin123
+
+**Paientes**
+**User:**
+* paciente1
+* paciente2
+**A senha para todos os usuarios é padrão (8319silva)**
+
+**Medico**
+**User:**
+* medico1
+* medico2
+**A senha para todos os usuarios é padrão (8319silva)**
