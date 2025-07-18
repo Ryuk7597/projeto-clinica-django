@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 
 from .models import Convenio, Especialidade, Sala, Medico, Consulta, Paciente, Disponibilidade, Disponibilidade, RegistroProntuario
-from .forms import PacienteCreationForm, MedicoUserCreationForm, MedicoUpdateForm, ConsultaForm, DisponibilidadeForm, ProntuarioForm
+from .forms import PacienteCreationForm, MedicoUserCreationForm, MedicoUpdateForm, ConsultaForm, DisponibilidadeForm, ProntuarioForm, PacienteUpdateForm
 
 #Injeção de Dependência
 from dependency_injector.wiring import inject, Provide
@@ -385,3 +385,37 @@ class DashboardPacienteView(LoginRequiredMixin, TemplateView):
         except Paciente.DoesNotExist:
             context['consultas'] = []
         return context
+
+
+class PacienteListView(AdminRequiredMixin, ListView):
+    model = Paciente
+    template_name = 'clinica/paciente_list.html'
+    context_object_name = 'pacientes'
+    queryset = Paciente.objects.select_related('usuario', 'convenio').order_by('nome_completo')
+
+class PacienteCreateAdminView(AdminRequiredMixin, CreateView):
+    form_class = PacienteCreationForm
+    template_name = 'clinica/paciente_form.html'
+    success_url = reverse_lazy('paciente_list')
+
+class PacienteUpdateView(AdminRequiredMixin, UpdateView):
+    model = Paciente
+    form_class = PacienteUpdateForm
+    template_name = 'clinica/paciente_form.html'
+    success_url = reverse_lazy('paciente_list')
+
+class PacienteDeleteView(AdminRequiredMixin, DeleteView):
+    model = Paciente
+    template_name = 'clinica/paciente_confirm_delete.html'
+    success_url = reverse_lazy('paciente_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        usuario_a_deletar = self.object.usuario
+        success_url = self.get_success_url()
+        try:
+            usuario_a_deletar.delete()
+            messages.success(request, f'O paciente "{self.object.nome_completo}" e sua conta de usuário foram excluídos com sucesso.')
+        except Exception as e:
+            messages.error(request, f'Ocorreu um erro ao excluir o paciente: {e}')
+        return HttpResponseRedirect(success_url)

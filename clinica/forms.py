@@ -108,3 +108,15 @@ class ProntuarioForm(forms.ModelForm):
             'descricao_atendimento': forms.Textarea(attrs={'rows': 5}),
             'prescricao': forms.Textarea(attrs={'rows': 3}),
         }
+    
+
+class PacienteUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Paciente
+        fields = ['nome_completo', 'cpf', 'data_nascimento', 'convenio']
+        widgets = {
+            'data_nascimento': forms.DateInput(
+                attrs={'type': 'date'},
+                format='%Y-%m-%d'
+            ),
+        }

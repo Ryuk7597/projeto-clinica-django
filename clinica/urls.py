@@ -69,5 +69,9 @@ urlpatterns = [
     path('gerenciar/disponibilidades/nova/', views.DisponibilidadeCreateView.as_view(), name='disponibilidade_create'),
     path('gerenciar/disponibilidades/<int:pk>/editar/', views.DisponibilidadeUpdateView.as_view(), name='disponibilidade_update'),
     path('gerenciar/disponibilidades/<int:pk>/excluir/', views.DisponibilidadeDeleteView.as_view(), name='disponibilidade_delete'),
-
+    path('gerenciar/pacientes/', views.PacienteListView.as_view(), name='paciente_list'),
+    path('gerenciar/pacientes/novo/', views.PacienteCreateAdminView.as_view(), name='paciente_create_admin'),
+    path('gerenciar/pacientes/<int:pk>/editar/', views.PacienteUpdateView.as_view(), name='paciente_update'),
+    path('gerenciar/pacientes/<int:pk>/excluir/', views.PacienteDeleteView.as_view(), name='paciente_delete'),
+    
 ]
