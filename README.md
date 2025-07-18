@@ -14,7 +14,7 @@ Pelo menos 2 Injeções de Dependência;
 1 repositório no Github;
 5 Testes automatizados com Katalon;
 1 Script para build automática no Jenkins;
-1 análise do código final com SonarCloud
+1 análise do código final com SonarCloud.
 
 
 ## Descrição do Projeto
