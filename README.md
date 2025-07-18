@@ -58,10 +58,10 @@ para gerenciar as operações da clínica, como horários, prontuários e cadast
 **User:**
 * paciente1
 * paciente2
-**A senha para todos os usuarios é padrão (8319silva)**
+**A senha para todos os usuarios é padrão (user123456)**
 
 **Medico**
 **User:**
 * medico1
 * medico2
-**A senha para todos os usuarios é padrão (8319silva)**
+**A senha para todos os usuarios é padrão (user123456)**
