@@ -1,0 +1,16 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>{% if object %}Editar Registro do Prontuário{% else %}Adicionar Registro ao Prontuário{% endif %}</h1>
+    <hr>
+    <div class="alert alert-info">
+        <strong>Paciente:</strong> {{ consulta.paciente.nome_completo }}<br>
+        <strong>Consulta em:</strong> {{ consulta.data_hora|date:"d/m/Y H:i" }}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'dashboard_medico' %}" class="btn btn-secondary">Voltar para Consultas</a>
+    </form>
+{% endblock %}

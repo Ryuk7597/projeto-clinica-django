@@ -1,0 +1,12 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>Cancelar Consulta</h1>
+    <hr>
+    <p>Você tem certeza que deseja cancelar a consulta do paciente <strong>{{ object.paciente.nome_completo }}</strong> com o(a) Dr(a). <strong>{{ object.medico.nome_completo }}</strong>, agendada para <strong>{{ object.data_hora|date:"d/m/Y H:i" }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, cancelar consulta</button>
+        <a href="{% url 'consulta_list' %}" class="btn btn-secondary">Não, voltar</a>
+    </form>
+{% endblock %}

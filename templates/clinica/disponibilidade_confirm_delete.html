@@ -1,0 +1,12 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <h1>Excluir Disponibilidade</h1>
+    <hr>
+    <p>Você tem certeza que deseja excluir o registro de disponibilidade do(a) Dr(a). <strong>{{ object.medico.nome_completo }}</strong> para <strong>{{ object.get_dia_semana_display }}</strong> ({{object.hora_inicio}} - {{object.hora_fim}})?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, tenho certeza</button>
+        <a href="{% url 'disponibilidade_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

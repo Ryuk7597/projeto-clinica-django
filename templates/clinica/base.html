@@ -8,16 +8,6 @@
 </head>
 <body class="bg-light">
 
-    {% if messages %}
-        <ul style="list-style: none; padding: 0;">
-            {% for message in messages %}
-                <li style="padding: 10px; margin-bottom: 10px; background-color: {% if message.tags == 'success' %}lightgreen{% else %}lightcoral{% endif %};">
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home' %}">Clínica S&B</a>
@@ -33,6 +23,14 @@
                         {% if user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link active" href="{% url 'gerenciamento' %}">Gerenciamento</a>
+                            </li>
+                        {% elif user.tipo_usuario == 'medico' %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'dashboard_medico' %}">Meu Painel</a>
+                            </li>
+                        {% elif user.tipo_usuario == 'paciente' %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'dashboard_paciente' %}">Meu Painel</a>
                             </li>
                         {% endif %}
 

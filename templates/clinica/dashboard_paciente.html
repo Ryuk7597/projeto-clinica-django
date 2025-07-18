@@ -5,13 +5,13 @@
 {% block content %}
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">
+            <div class="alert alert-success" role="alert">
                 {{ message }}
             </div>
         {% endfor %}
     {% endif %}
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm mb-4">
         <div class="card-header">
             <h1>Painel do Paciente</h1>
         </div>
@@ -22,12 +22,35 @@
         </div>
     </div>
 
-    <div class="card shadow-sm mt-4">
+    <div class="card shadow-sm">
         <div class="card-header">
             <h2>Minhas Consultas</h2>
         </div>
         <div class="card-body">
-            <p>Em breve, sua lista de consultas agendadas aparecerá aqui.</p>
+            {% if consultas %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Médico</th>
+                            <th>Data e Hora</th>
+                            <th>Sala</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for consulta in consultas %}
+                            <tr>
+                                <td>Dr(a). {{ consulta.medico.nome_completo }}</td>
+                                <td>{{ consulta.data_hora|date:"d/m/Y H:i" }}</td>
+                                <td>{{ consulta.sala.nome }}</td>
+                                <td><span class="badge bg-info text-dark">{{ consulta.status }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Você ainda não tem nenhuma consulta agendada.</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

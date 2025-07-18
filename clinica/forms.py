@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import Usuario, Paciente, Medico, Especialidade
+from .models import Usuario, Paciente, Medico, Especialidade, Consulta, Disponibilidade, RegistroProntuario
 
 
 class PacienteCreationForm(UserCreationForm):
@@ -65,3 +65,46 @@ class MedicoUpdateForm(forms.ModelForm):
     class Meta:
         model = Medico
         fields = ['nome_completo', 'crm', 'especialidades']
+
+
+class ConsultaForm(forms.ModelForm):
+    class Meta:
+        model = Consulta
+        fields = ['paciente', 'medico', 'sala', 'data_hora', 'status']
+        widgets = {
+            'data_hora': forms.DateTimeInput(
+                attrs={'type': 'datetime-local'},
+                format='%Y-%m-%dT%H:%M'
+            ),
+        }
+
+
+class DisponibilidadeForm(forms.ModelForm):
+    DIA_SEMANA_CHOICES = [
+        (1, 'Segunda-feira'),
+        (2, 'Terça-feira'),
+        (3, 'Quarta-feira'),
+        (4, 'Quinta-feira'),
+        (5, 'Sexta-feira'),
+        (6, 'Sábado'),
+        (7, 'Domingo'),
+    ]
+
+    dia_semana = forms.ChoiceField(choices=DIA_SEMANA_CHOICES)
+
+    class Meta:
+        model = Disponibilidade
+        fields = ['medico', 'dia_semana', 'hora_inicio', 'hora_fim']
+        widgets = {
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time'}),
+            'hora_fim': forms.TimeInput(attrs={'type': 'time'}),
+        }
+
+class ProntuarioForm(forms.ModelForm):
+    class Meta:
+        model = RegistroProntuario
+        fields = ['descricao_atendimento', 'prescricao']
+        widgets = {
+            'descricao_atendimento': forms.Textarea(attrs={'rows': 5}),
+            'prescricao': forms.Textarea(attrs={'rows': 3}),
+        }

@@ -1,0 +1,40 @@
+{% extends 'clinica/base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Gerenciar Consultas</h1>
+        <a href="{% url 'consulta_create' %}" class="btn btn-primary">Agendar Nova Consulta</a>
+    </div>
+    <hr>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Médico</th>
+                <th>Data e Hora</th>
+                <th>Sala</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consulta in consultas %}
+                <tr>
+                    <td>{{ consulta.paciente.nome_completo }}</td>
+                    <td>{{ consulta.medico.nome_completo }}</td>
+                    <td>{{ consulta.data_hora|date:"d/m/Y H:i" }}</td>
+                    <td>{{ consulta.sala.nome }}</td>
+                    <td><span class="badge bg-info text-dark">{{ consulta.status }}</span></td>
+                    <td>
+                        <a href="{% url 'consulta_update' consulta.pk %}" class="btn btn-sm btn-info">Editar</a>
+                        <a href="{% url 'consulta_delete' consulta.pk %}" class="btn btn-sm btn-danger">Cancelar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">Nenhuma consulta agendada no sistema.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

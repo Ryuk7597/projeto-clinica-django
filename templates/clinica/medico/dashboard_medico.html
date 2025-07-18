@@ -1,0 +1,55 @@
+{% extends 'clinica/base.html' %}
+
+{% block title %}Painel do Médico{% endblock %}
+
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h1>Painel do Médico</h1>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Bem-vindo, Dr(a). {{ medico.nome_completo }}!</h5>
+            <p class="card-text">Abaixo estão as suas consultas agendadas para hoje.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-header">
+            <h2>Consultas de Hoje ({{ consultas_de_hoje.count }})</h2>
+        </div>
+        <div class="card-body">
+            {% if consultas_de_hoje %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Paciente</th>
+                            <th>Status</th>
+                            <th>Prontuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for consulta in consultas_de_hoje %}
+                            <tr>
+                                <td>{{ consulta.data_hora|date:"H:i" }}</td>
+                                <td>{{ consulta.paciente.nome_completo }}</td>
+                                <td><span class="badge bg-info text-dark">{{ consulta.status }}</span></td>
+                                <td>
+                                    {% if consulta.status == 'Realizada' or consulta.status == 'Agendada' %}
+                                        {% if consulta.registroprontuario %}
+                                            <a href="{% url 'prontuario_update' consulta.registroprontuario.pk %}" class="btn btn-sm btn-secondary">Ver/Editar</a>
+                                        {% else %}
+                                            <a href="{% url 'prontuario_create' consulta.pk %}" class="btn btn-sm btn-success">Adicionar</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Você não tem nenhuma consulta agendada para hoje.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

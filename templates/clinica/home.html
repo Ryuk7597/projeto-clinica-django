@@ -13,7 +13,7 @@
                 <p>Olá, <strong>{{ user.username }}</strong>!</p>
 
                 {% if user.tipo_usuario == 'paciente' %}
-                    <a href="{% url 'dashboard_paciente' %}" class="btn btn-primary btn-lg">Acessar meu painel</a>
+                    <a href="{% url 'dashboard_redirect' %}" class="btn btn-primary btn-lg" class="btn btn-primary btn-lg">Acessar meu painel</a>
                 {% endif %}
 
                 <form action="{% url 'logout' %}" method="post" style="display: inline;">
